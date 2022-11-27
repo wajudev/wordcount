@@ -1,8 +1,12 @@
-CC = g++
-CFLAGS = -Wall -g
+CXX = g++
+CXXFLAGS = -std=c++2b
 
-main: main.o
-	$(CC) $(CFLAGS) -o main main.o
+all: main
 
-main.o: main.cpp
-	$(CC) $(CFLAGS) -c main.cpp
+.outputFolder:
+	mkdir -p out
+
+main: .outputFolder
+	$(CXX) $(CXXFLAGS) main.cpp -Wall -Wextra -Werror -o out/main
+	./out/main
+
