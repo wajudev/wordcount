@@ -4,16 +4,17 @@
 #include <map>
 #include <filesystem>
 
+
 // store string/int pairs
 typedef std::map<std::string, int> StringIntMap;
 
 // TODO: make word counter conform to functional programming paradigm -> replace while loop maybe?
-auto word_counter = [](std::istream &input, StringIntMap &words){
+auto word_counter = [](std::istream &input, StringIntMap &words) {
     std::string stringHolder;
 
     // Reads non-whitespace and places them in the string holder
     // TODO: Make reader better, character maybe and not whitespaces -> low priority
-    while (input >> stringHolder){
+    while (input >> stringHolder) {
         // Updates the stats in the map
         ++words[stringHolder];
     }
@@ -32,20 +33,18 @@ auto recursive_directory_search = [](const std::string &path, const std::string 
     return filepath;
 };
 
-// TODO: Figure out how to access content of all files -> currently only works for the last file found
-// TODO: Make the loops functional
+// TODO: Figure out how to access content of all files -> currently only works for the last file foun
 auto file_accessor = [](const std::string &extensionFile) {
-    std::string data;
     std::ifstream file;
     StringIntMap map;
+
     file.open(extensionFile, std::ios::out);
 
     if (file.is_open()) {
-        while (getline(file, data)) {
-            word_counter(file, map);
-            for(auto &word : map){
-                std::cout << word.first << " -> " << word.second << std::endl;
-            }
+        word_counter(file, map);
+        for (auto &word: map) {
+            // feature of map that uses <utility> template
+            std::cout << word.first << " -> " << word.second << std::endl;
         }
         file.close();
     } else std::cout << "Unable to open file" << std::endl;
