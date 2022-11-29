@@ -11,10 +11,14 @@ auto recursive_directory_search =[](const std::string &path, const std::string &
     }
 };
 
-
 // TODO Figure out how to access content of file
+auto fileAccessor = [](){};
+
 // TODO Word counter
-// TODO Word printer
+auto wordCounter = [](){};
+
+
+// TODO Bericht printer
 
 
 int main(){
