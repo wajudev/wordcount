@@ -1,7 +1,23 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <map>
 #include <filesystem>
+
+// store string/int pairs
+typedef std::map<std::string, int> StringIntMap;
+
+// TODO: make word counter conform to functional programming paradigm -> replace while loop maybe?
+auto word_counter = [](std::istream &input, StringIntMap &words){
+    std::string stringHolder;
+
+    // Reads non-whitespace and places them in the string holder
+    // TODO: Make reader better, character maybe and not whitespaces -> low priority
+    while (input >> stringHolder){
+        // Updates the stats in the map
+        ++words[stringHolder];
+    }
+};
 
 auto recursive_directory_search = [](const std::string &path, const std::string &extension) {
     std::string filepath;
@@ -9,34 +25,33 @@ auto recursive_directory_search = [](const std::string &path, const std::string 
         // TODO Do something cool other than print
         if (entry.path().extension() == extension) {
             // TODO maybe save all paths in a vector to be accessed later (Accessed recursively?)
-            std::cout << entry.path().stem().string() << std::endl;
+            // std::cout << entry.path().stem().string() << std::endl;
             filepath = entry.path();
         }
     }
     return filepath;
 };
 
-// TODO Figure out how to access content of file
-// Doesn't work! & not functional
+// TODO: Figure out how to access content of all files -> currently only works for the last file found
+// TODO: Make the loops functional
 auto file_accessor = [](const std::string &extensionFile) {
     std::string data;
     std::ifstream file;
+    StringIntMap map;
     file.open(extensionFile, std::ios::out);
 
     if (file.is_open()) {
         while (getline(file, data)) {
-            std::cout << data << std::endl;
+            word_counter(file, map);
+            for(auto &word : map){
+                std::cout << word.first << " -> " << word.second << std::endl;
+            }
         }
         file.close();
     } else std::cout << "Unable to open file" << std::endl;
 };
 
-// TODO Word counter
-//auto word_counter = [](){};
-
-
-// TODO Bericht printer
-
+// TODO: Handle human errors etc.
 
 int main() {
     std::string path, extension;
