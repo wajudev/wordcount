@@ -51,7 +51,7 @@ auto recursive_directory_search = [](const std::string &path, const std::string 
 };*/
 
 
-// TODO: Maybe break down into multiple functions -
+// TODO: Maybe break down into multiple functions
 auto file_accessor = [](const std::vector <std::string> &extensionFile) {
     std::ifstream inputFile;
     StringIntMap map;
@@ -66,20 +66,21 @@ auto file_accessor = [](const std::vector <std::string> &extensionFile) {
                 //std::cout << word.first << " -> " << word.second << std::endl;
                 pairs.push_back(word);
             }
-            sort(pairs.begin(), pairs.end(), [=](std::pair<std::string , int> &a, std::pair<std::string, int> &b) {
-                     return a.second > b.second;
-                 }
-            );
-
             inputFile.close();
         } else std::cout << "Unable to open file" << std::endl;
     }
+    return pairs;
+};
+
+auto sorter = [](std::vector<std::pair<std::string, int>> pairs){
+    sort(pairs.begin(), pairs.end(), [=](std::pair<std::string , int> &a, std::pair<std::string, int> &b) {
+             return a.second > b.second;
+         }
+    );
     for (auto &i: pairs) {
         std::cout << i.first << " -> " << i.second << std::endl;
     }
 };
-
-
 
 
 int main() {
@@ -90,7 +91,6 @@ int main() {
     std::cin >> extension;
 
     //recursive_directory_search(path, extension);
-    file_accessor(recursive_directory_search(path, extension));
-
+    sorter(file_accessor(recursive_directory_search(path, extension)));
     return 0;
 }
