@@ -55,6 +55,7 @@ auto recursive_directory_search = [](const std::string &path, const std::string 
 auto file_accessor = [](const std::vector <std::string> &extensionFile) {
     std::ifstream inputFile;
     StringIntMap map;
+    std::vector <std::pair<std::string, int>> pairs;
 
     for (auto file: extensionFile) {
         inputFile.open(file, std::ios::out);
@@ -62,13 +63,23 @@ auto file_accessor = [](const std::vector <std::string> &extensionFile) {
             word_counter(inputFile, map);
             for (auto &word: map) {
                 // feature of map that uses <utility> template
-                std::cout << word.first << " -> " << word.second << std::endl;
-                //map_sorter(word);
+                //std::cout << word.first << " -> " << word.second << std::endl;
+                pairs.push_back(word);
             }
+            sort(pairs.begin(), pairs.end(), [=](std::pair<std::string , int> &a, std::pair<std::string, int> &b) {
+                     return a.second > b.second;
+                 }
+            );
+
             inputFile.close();
         } else std::cout << "Unable to open file" << std::endl;
     }
+    for (auto &i: pairs) {
+        std::cout << i.first << " -> " << i.second << std::endl;
+    }
 };
+
+
 
 
 int main() {
