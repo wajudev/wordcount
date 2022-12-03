@@ -20,9 +20,6 @@
  */
 typedef std::map<std::string, int> StringIntMap;
 
-auto increment = [](const int& value){
-    return value + 1;
-};
 /**
  * word_counter: Reads in non-whitespaces from an istream and places them in a string
  * with the help of an operator >> and updates the statistics of each word in the map.
@@ -40,7 +37,6 @@ auto word_counter = [](std::istream &input, StringIntMap &words) {
     while (input >> stringHolder) {
         // Updates the stats in the map
         ++words[stringHolder];
-
     }
 };
 
@@ -58,11 +54,7 @@ auto recursive_directory_search = [](const std::string &path, const std::string 
     std::vector <std::string> filepath;
     for (const auto &entry: std::filesystem::recursive_directory_iterator(path)) {
         if (entry.path().extension() == extension) {
-            //std::cout << entry.path().stem().string() << std::endl;
             filepath.push_back(entry.path());
-            /*for (auto i: filepath) {
-                std::cout << i << std::endl;
-            }*/
         }
     }
     return filepath;
@@ -85,10 +77,6 @@ auto file_accessor = [](const std::vector <std::string> &extensionFile) -> std::
         inputFile.open(file, std::ios::out);
         if (inputFile.is_open()) {
             word_counter(inputFile, map);
-/*          for (auto &word: map) {
-                // feature of map that uses <utility> template
-                //std::cout << word.first << " -> " << word.second << std::endl;
-            }*/
             inputFile.close();
         } else std::cout << "Unable to open file" << std::endl;
     }
@@ -106,14 +94,12 @@ auto file_accessor = [](const std::vector <std::string> &extensionFile) -> std::
  * @return void
  */
 
-auto sorter = [](std::vector<std::pair<std::string, int>> pairs){
+auto sorter = [](std::vector<std::pair<std::string, int>> pairs) -> std::vector<std::pair<std::string, int>> {
     sort(pairs.begin(), pairs.end(), [=](std::pair<std::string , int> &a, std::pair<std::string, int> &b) {
              return a.second > b.second;
          }
     );
-    for (auto &i: pairs) {
-        std::cout << i.first << " -> " << i.second << std::endl;
-    }
+    return pairs;
 };
 
 int main() {
@@ -123,10 +109,12 @@ int main() {
     std::cout << "Enter extension" << std::endl;
     std::cin >> extension;
 
-    //std::vector<std::string> directory = recursive_directory_search(path, extension);
-    //std::vector<std::pair<std::string, int>> accessor = file_accessor(directory);
-    //sorter(accessor);
-    sorter(file_accessor(recursive_directory_search(path, extension)));
+    std::vector<std::string> directory = recursive_directory_search(path, extension);
+    std::vector<std::pair<std::string, int>> accessor = file_accessor(directory);
+    std::vector<std::pair<std::string, int>> pairs = sorter(accessor);
+    for (auto &i: pairs) {
+        std::cout << i.first << " -> " << i.second << std::endl;
+    }
 
     return 0;
 }
