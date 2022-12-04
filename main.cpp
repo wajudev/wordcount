@@ -2,9 +2,12 @@
 #include <string>
 #include <fstream>
 #include <map>
+#include <sstream>
 #include <filesystem>
 #include <vector>
-
+//#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#define DOCTEST_CONFIG_DISABLE
+#include "doctest.h"
 
 
 
@@ -20,6 +23,8 @@
  * std::map to store keys(strings) and values(ints) pairs
  */
 typedef std::map<std::string, int> StringIntMap;
+
+
 
 /**
  * word_counter: Reads in non-whitespaces from an istream and places them in a string
@@ -120,4 +125,19 @@ int main() {
 
     return 0;
 }
+
+TEST_CASE("Check sort function"){
+    std::vector<std::pair<std::string, int>> xyz;
+    xyz.emplace_back(std::make_pair("word", 2));
+    xyz.emplace_back(std::make_pair("tom",  5));
+    xyz.emplace_back(std::make_pair("friday", 3));
+    xyz.emplace_back(std::make_pair("haskell", 9));
+    xyz.emplace_back(std::make_pair("luxemburger", 19));
+
+    std::vector<std::pair<std::string, int>> sortedPairs = sorter(xyz);
+    CHECK_EQ(xyz.size(), 5);
+    CHECK_EQ(sortedPairs[0].first, xyz[4].first);
+    CHECK_EQ(sortedPairs[0].second, xyz[4].second);
+}
+
 

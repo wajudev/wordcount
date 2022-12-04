@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++2b
+CXXFLAGS = -std=c++2b -g
 
 all: main
 
@@ -9,3 +9,4 @@ all: main
 main: .outputFolder
 	$(CXX) $(CXXFLAGS) main.cpp -Wall -Wextra -Werror -o out/main
 	./out/main
+
