@@ -9,4 +9,3 @@ all: main
 main: .outputFolder
 	$(CXX) $(CXXFLAGS) main.cpp -Wall -Wextra -Werror -o out/main
 	./out/main
-

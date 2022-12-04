@@ -7,6 +7,7 @@
 
 
 
+
 // TODO: Handle human errors etc.
 // TODO: Tests script for program
 // TODO: Identify side effects of each function
@@ -28,6 +29,7 @@ typedef std::map<std::string, int> StringIntMap;
  * @param words - StringIntMap of word with its occurrence.
  * @return void
  */
+
 auto word_counter = [](std::istream &input, StringIntMap &words) {
 // TODO: make word counter conform to functional programming paradigm -> replace while loop maybe?
     std::string stringHolder;
@@ -39,6 +41,7 @@ auto word_counter = [](std::istream &input, StringIntMap &words) {
         ++words[stringHolder];
     }
 };
+
 
 /**
  * recursive_directory_search: Uses the std::filesystem library to iterate over
@@ -82,7 +85,7 @@ auto file_accessor = [](const std::vector <std::string> &extensionFile) -> std::
     }
 
     for (auto &word: map) {
-        pairs.push_back(word);
+        pairs.emplace_back(word);
     }
     return pairs;
 };
@@ -93,7 +96,6 @@ auto file_accessor = [](const std::vector <std::string> &extensionFile) -> std::
  * @param pairs vector of pair of strings and ints
  * @return void
  */
-
 auto sorter = [](std::vector<std::pair<std::string, int>> pairs) -> std::vector<std::pair<std::string, int>> {
     sort(pairs.begin(), pairs.end(), [=](std::pair<std::string , int> &a, std::pair<std::string, int> &b) {
              return a.second > b.second;
@@ -118,3 +120,4 @@ int main() {
 
     return 0;
 }
+
