@@ -109,12 +109,17 @@ auto sorter = [](std::vector<std::pair<std::string, int>> pairs) -> std::vector<
     return pairs;
 };
 
-int main() {
+int main(int argc, char** argv) {
     std::string path, extension;
-    std::cout << "Enter directory path" << std::endl;
-    std::cin >> path;
-    std::cout << "Enter extension" << std::endl;
-    std::cin >> extension;
+    if (argc == 3){
+        path = argv[1];
+        extension = argv[2];
+    } else {
+        std::cout << "Enter directory path" << std::endl;
+        std::cin >> path;
+        std::cout << "Enter extension" << std::endl;
+        std::cin >> extension;
+    }
 
     std::vector<std::string> directory = recursive_directory_search(path, extension);
     std::vector<std::pair<std::string, int>> accessor = file_accessor(directory);
