@@ -7,6 +7,7 @@
 #include <vector>
 //#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #define DOCTEST_CONFIG_DISABLE
+
 #include "doctest.h"
 
 
@@ -23,7 +24,6 @@
  * std::map to store keys(strings) and values(ints) pairs
  */
 typedef std::map<std::string, int> StringIntMap;
-
 
 
 /**
@@ -58,8 +58,9 @@ auto word_counter = [](std::istream &input, StringIntMap &words) {
  * @return vector of strings of paths of files with matching extensions.
  */
 
-auto recursive_directory_search = [](const std::string &path, const std::string &extension) -> std::vector<std::string> {
-    std::vector <std::string> filepath;
+auto recursive_directory_search = [](const std::string &path,
+                                     const std::string &extension) -> std::vector<std::string> {
+    std::vector<std::string> filepath;
     for (const auto &entry: std::filesystem::recursive_directory_iterator(path)) {
         if (entry.path().extension() == extension) {
             filepath.push_back(entry.path());
@@ -75,11 +76,11 @@ auto recursive_directory_search = [](const std::string &path, const std::string 
  * @param extensionFile - files with content where each word are to be counted.
  * @return pairs, a vector of pair of strings and ints
  */
-auto file_accessor = [](const std::vector <std::string> &extensionFile) -> std::vector <std::pair<std::string, int>>  {
+auto file_accessor = [](const std::vector<std::string> &extensionFile) -> std::vector<std::pair<std::string, int>> {
 // TODO: Maybe break down into multiple functions
     std::ifstream inputFile;
     StringIntMap map;
-    std::vector <std::pair<std::string, int>> pairs;
+    std::vector<std::pair<std::string, int>> pairs;
 
     for (auto file: extensionFile) {
         inputFile.open(file, std::ios::out);
@@ -102,16 +103,16 @@ auto file_accessor = [](const std::vector <std::string> &extensionFile) -> std::
  * @return void
  */
 auto sorter = [](std::vector<std::pair<std::string, int>> pairs) -> std::vector<std::pair<std::string, int>> {
-    sort(pairs.begin(), pairs.end(), [=](std::pair<std::string , int> &a, std::pair<std::string, int> &b) {
+    sort(pairs.begin(), pairs.end(), [=](std::pair<std::string, int> &a, std::pair<std::string, int> &b) {
              return a.second > b.second;
          }
     );
     return pairs;
 };
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     std::string path, extension;
-    if (argc == 3){
+    if (argc == 3) {
         path = argv[1];
         extension = argv[2];
     } else {
@@ -131,10 +132,10 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-TEST_CASE("Check sort function"){
+TEST_CASE("Check sort function") {
     std::vector<std::pair<std::string, int>> xyz;
     xyz.emplace_back(std::make_pair("word", 2));
-    xyz.emplace_back(std::make_pair("tom",  5));
+    xyz.emplace_back(std::make_pair("tom", 5));
     xyz.emplace_back(std::make_pair("friday", 3));
     xyz.emplace_back(std::make_pair("haskell", 9));
     xyz.emplace_back(std::make_pair("luxemburger", 19));
