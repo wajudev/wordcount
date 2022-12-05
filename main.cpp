@@ -25,7 +25,6 @@
  */
 typedef std::map<std::string, int> StringIntMap;
 
-
 /**
  * word_counter: Reads in non-whitespaces from an istream and places them in a string
  * with the help of an operator >> and updates the statistics of each word in the map.
@@ -41,6 +40,8 @@ auto word_counter = [](std::istream &input, StringIntMap &words) {
 
     // Reads non-whitespace and places them in the string holder
     // TODO: Make reader better, character maybe and not whitespaces -> low priority
+    // input >> stringHolder has the side effect of reading a new value into stringHolder, as well as being
+    // an expression that has the value of the object input after the new value is read into stringHolder.
     while (input >> stringHolder) {
         // Updates the stats in the map
         ++words[stringHolder];
@@ -100,10 +101,10 @@ auto file_accessor = [](const std::vector<std::string> &extensionFile) -> std::v
  * sorter: LambdaIO, sorts the value of each word occurrence in a descending order and prints the result.
  *
  * @param pairs vector of pair of strings and ints
- * @return void
+ * @return value-sorted pairs, a vector of pair of strings and ints
  */
 auto sorter = [](std::vector<std::pair<std::string, int>> pairs) -> std::vector<std::pair<std::string, int>> {
-    sort(pairs.begin(), pairs.end(), [=](std::pair<std::string, int> &a, std::pair<std::string, int> &b) {
+    sort(pairs.begin(), pairs.end(), [=](const std::pair<std::string, int> &a, const std::pair<std::string, int> &b) {
              return a.second > b.second;
          }
     );
